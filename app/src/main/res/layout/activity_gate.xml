@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B3041">
+    android:background="@color/dark_night">
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/gate_image_top"
         android:layout_width="413dp"
         android:layout_height="127dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/gate_top" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/gate_image_bottom"
         android:layout_width="426dp"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,11 +26,11 @@
         app:srcCompat="@drawable/gate_bottom" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/addBtn"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintBottom_toBottomOf="@+id/gate_image_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/plus_btn2" />
