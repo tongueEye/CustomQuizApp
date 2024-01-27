@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/view_round_darknight"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/instructionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="23sp"
+        android:layout_marginTop="18dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/nexon_cart_gothic_medium"
+        android:text="문제집 이름을 입력하세요." />
+
+    <EditText
+        android:id="@+id/folderNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/view_round_white"
+        android:fontFamily="@font/nexon_cart_gothic_medium"
+        android:gravity="center"
+        android:hint="문제집 이름 (최대 15자)"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:inputType="text"
+        android:textSize="23sp"
+        android:maxLength="15" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
+        android:orientation="horizontal">
+
+        <android.widget.Button
+            android:id="@+id/cancelBtn"
+            android:background="@drawable/view_round_red2"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="7dp"
+            android:layout_weight="1"
+            android:text="취소"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:fontFamily="@font/nexon_cart_gothic_bold"
+            android:textSize="18sp" />
+
+        <android.widget.Button
+            android:id="@+id/saveBtn"
+            android:background="@drawable/view_round_red"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="저장"
+            android:textColor="@color/dark_night"
+            android:textStyle="bold"
+            android:fontFamily="@font/nexon_cart_gothic_bold"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
