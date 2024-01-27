@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CustomQuizApp</string>
+    <string name="update_text">수정</string>
+    <string name="delete_text">삭제</string>
 </resources>

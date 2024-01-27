@@ -1,27 +1,15 @@
 package com.example.customquizapp
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.example.customquizapp.databinding.ActivityGateBinding
 import com.example.customquizapp.databinding.DialogCreateFolderBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.ServiceLoader
 
 
 class GateActivity: AppCompatActivity() {
@@ -29,11 +17,14 @@ class GateActivity: AppCompatActivity() {
     private lateinit var folderAdapter: FolderAdapter
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // AppDatabase 초기화
+        val db = AppDatabase.getDatabase(applicationContext)
+        val folderDao = db?.folderDao()
 
         binding.addBtn.setOnClickListener {
             showAddDialog()
@@ -43,7 +34,9 @@ class GateActivity: AppCompatActivity() {
         binding.folderListRV.layoutManager = LinearLayoutManager(this)
 
         //folderAdapter 초기화
-        folderAdapter = FolderAdapter()
+        //folderAdapter = FolderAdapter()
+        folderAdapter = folderDao?.let { FolderAdapter(it) }!!
+
 
         //Adapter 적용
         binding.folderListRV.adapter = folderAdapter
@@ -86,16 +79,16 @@ class GateActivity: AppCompatActivity() {
         dialogBinding.saveBtn.setOnClickListener {
 
             val folderName = dialogBinding.folderNameEditText.text.toString()
-            if(folderName.isNotEmpty()){
-                alertDialog.dismiss() // 다이얼로그 닫음
-                Toast.makeText(this, "새 문제집이 추가되었습니다.", Toast.LENGTH_LONG).show()
-
-                // 폴더 생성
+            val existingFolder = AppDatabase.getDatabase(applicationContext)?.folderDao()?.getFolderByName(folderName)
+            if (existingFolder == null) {
+                // 동일한 이름의 폴더가 없는 경우에만 새로운 폴더 추가
                 insertFolder(folderName)
                 loadFolderList()
-
-            } else{
-                Toast.makeText(this, "문제집 이름을 입력하세요!", Toast.LENGTH_LONG).show()
+                alertDialog.dismiss() // 다이얼로그를 닫음
+                Toast.makeText(this, "새 문제집이 추가되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                // 동일한 이름의 폴더가 이미 존재하는 경우
+                Toast.makeText(this, "이미 존재하는 문제집입니다.", Toast.LENGTH_SHORT).show()
             }
         }
         // 다이얼로그 표시
