@@ -1,6 +1,7 @@
 package com.example.customquizapp
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
@@ -9,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customquizapp.databinding.DialogConfirmBinding
 import com.example.customquizapp.databinding.DialogCreateFolderBinding
 import com.example.customquizapp.databinding.ItemFolderBinding
+import kotlin.coroutines.coroutineContext
 
 class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<FolderAdapter.Holder>() {
     private var folderList: MutableList<Folder> = mutableListOf()
@@ -26,6 +29,13 @@ class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<Fold
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val folder = folderList[position]
         holder.binding.folderNameTV.text = folder.folderName
+
+        holder.binding.folderNameTV.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, QuizActivity::class.java)
+            intent.putExtra("folder_name",folder.folderName)
+            context.startActivity(intent)
+        }
 
         holder.binding.optionBtn.setOnClickListener {
             showPopupMenu(holder.binding.optionBtn, folder)
