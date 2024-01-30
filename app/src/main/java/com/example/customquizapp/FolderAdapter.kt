@@ -137,6 +137,7 @@ class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<Fold
     }
 
     private fun deleteFolder(folder: Folder) {
+        folderDao.deleteQuizzesInFolder(folder.folderName.toString())
         folderDao.deleteFolder(folder)
         folderList.remove(folder)
         notifyDataSetChanged() // 삭제된 항목을 즉시 반영하여 화면 갱신

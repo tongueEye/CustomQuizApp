@@ -22,4 +22,7 @@ interface FolderDao {
 
     @Query("SELECT * FROM folder WHERE folderName = :name LIMIT 1")
     fun getFolderByName(name: String): Folder?
+
+    @Query("DELETE FROM quiz WHERE folderName = :folderName")
+    fun deleteQuizzesInFolder(folderName: String)
 }

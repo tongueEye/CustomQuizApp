@@ -6,15 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/dark_night">
 
-    <ImageView
-        android:id="@+id/quiz_bg_top"
-        android:layout_width="181dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="24dp"
+    <TextView
+        android:id="@+id/folderTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/nexon_cart_gothic_extra_bold"
+        android:text="폴더이름"
+        android:textColor="@color/white"
+        android:textSize="34dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/quiz_bg_top" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/quiz_bg_bottom"
@@ -37,7 +40,7 @@
         app:layout_constraintBottom_toTopOf="@+id/add_quiz_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quiz_bg_top" />
+        app:layout_constraintTop_toBottomOf="@+id/folderTitleTV" />
 
     <ImageView
         android:id="@+id/add_quiz_btn"
@@ -47,4 +50,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/add_button_rip" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

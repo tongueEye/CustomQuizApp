@@ -17,16 +17,6 @@
         android:fontFamily="@font/nexon_cart_gothic_bold"
         android:text="퀴즈 카드 만들기" />
 
-    <ImageView
-        android:id="@+id/add_photo_IV"
-        android:layout_gravity="center"
-        android:layout_marginLeft="13dp"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:src="@drawable/add_photo_white" />
-
     <EditText
         android:id="@+id/quizEditText"
         android:layout_width="match_parent"

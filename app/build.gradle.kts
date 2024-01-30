@@ -58,6 +58,9 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
-    //Meterial
-    implementation("com.google.android.material:material:1.11.0")
+    //Gilde
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
+
 }
