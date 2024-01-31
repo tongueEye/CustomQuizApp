@@ -9,13 +9,16 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.customquizapp.databinding.DialogConfirm2Binding
 import com.example.customquizapp.databinding.DialogConfirmBinding
 import com.example.customquizapp.databinding.DialogCreateQuizBinding
 import com.example.customquizapp.databinding.ItemQuizBinding
 
 
-class QuizAdapter(private val quizDao: QuizDao) : RecyclerView.Adapter<QuizAdapter.QuizViewHolder>() {
+class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizActivity) : RecyclerView.Adapter<QuizAdapter.QuizViewHolder>() {
     private var quizList: MutableList<Quiz> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizViewHolder {
@@ -62,33 +65,7 @@ class QuizAdapter(private val quizDao: QuizDao) : RecyclerView.Adapter<QuizAdapt
     }
 
     private fun showEditDialog(view: View, quiz: Quiz){
-        val dialogBinding = DialogCreateQuizBinding.inflate(LayoutInflater.from(view.context))
-        dialogBinding.quizEditText.setText(quiz.question) //EditText에 질문 값 설정
-        dialogBinding.quizAnswerEditText.setText(quiz.answer)
-
-        val dialogBuilder = AlertDialog.Builder(view.context)
-        val alertDialog = dialogBuilder.create()
-
-        alertDialog.setView(dialogBinding.root)
-        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        dialogBinding.cancelBtn.setOnClickListener {
-            alertDialog.dismiss()
-        }
-
-        dialogBinding.saveBtn.setOnClickListener {
-            val newQuestion = dialogBinding.quizEditText.text.toString()
-            val newAnswer = dialogBinding.quizAnswerEditText.text.toString()
-            if (newQuestion.isNotEmpty() and newAnswer.isNotEmpty()){
-                Toast.makeText(view.context, "퀴즈 카드가 수정되었습니다.", Toast.LENGTH_SHORT).show()
-                updateQuestionText(quiz, newQuestion, newAnswer)
-            } else{
-                Toast.makeText(view.context, "질문과 답을 모두 입력해주세요!", Toast.LENGTH_SHORT).show()
-            }
-            alertDialog.dismiss()
-        }
-
-        alertDialog.show()
+        quizActivity.showEditQuizDialog(quiz)
     }
 
     private fun updateQuestionText(quiz: Quiz, newQuestion: String, newAnswer: String){
@@ -99,7 +76,7 @@ class QuizAdapter(private val quizDao: QuizDao) : RecyclerView.Adapter<QuizAdapt
     }
 
     private fun showDeleteComfirmDialog(context: Context, quiz: Quiz){
-        val dialogBinding = DialogConfirmBinding.inflate(LayoutInflater.from(context))
+        val dialogBinding = DialogConfirm2Binding.inflate(LayoutInflater.from(context))
         val dialogBuilder = AlertDialog.Builder(context)
         val alertDialog = dialogBuilder.create()
 

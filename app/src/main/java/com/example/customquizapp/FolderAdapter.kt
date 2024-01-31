@@ -108,8 +108,15 @@ class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<Fold
     }
 
     private fun updateFolderName(folder: Folder, newName: String) {
+        val oldName = folder.folderName
         folder.folderName = newName
         folderDao.updateFolder(folder)
+
+        // 퀴즈 테이블에서도 폴더 이름 업데이트
+        if (oldName != null) {
+            folderDao.updateQuizFolderName(oldName, newName)
+        }
+
         notifyDataSetChanged()
     }
 

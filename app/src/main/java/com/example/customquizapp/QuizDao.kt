@@ -19,4 +19,10 @@ interface QuizDao {
 
     @Delete
     fun deleteQuiz(quiz: Quiz)
+
+    @Query("SELECT imageUri FROM quiz WHERE id = :quizId")
+    fun getImageUri(quizId: Int): String?
+
+    @Query("DELETE FROM quiz WHERE id = :quizId")
+    fun DeleteQuizById(quizId: Int): Int
 }

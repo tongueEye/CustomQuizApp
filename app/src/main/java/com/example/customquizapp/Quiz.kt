@@ -1,5 +1,6 @@
 package com.example.customquizapp
 
+import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -12,5 +13,6 @@ data class Quiz(
     val folderName: String,
     var question: String,
     var answer: String,
+    var imageUri: String? = null,
     var isCorrect: Boolean = false
 )
