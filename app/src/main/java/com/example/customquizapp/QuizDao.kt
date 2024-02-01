@@ -23,6 +23,9 @@ interface QuizDao {
     @Query("SELECT imageUri FROM quiz WHERE id = :quizId")
     fun getImageUri(quizId: Int): String?
 
+    @Query("UPDATE quiz SET imageUri = NULL WHERE id = :quizId")
+    fun updateQuizImageUri(quizId: Int)
+
     @Query("DELETE FROM quiz WHERE id = :quizId")
     fun DeleteQuizById(quizId: Int): Int
 }

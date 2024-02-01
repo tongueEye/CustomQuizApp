@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.customquizapp.databinding.DialogConfirm2Binding
 import com.example.customquizapp.databinding.DialogConfirmBinding
 import com.example.customquizapp.databinding.DialogCreateQuizBinding
+import com.example.customquizapp.databinding.DialogDetailQuizBinding
 import com.example.customquizapp.databinding.ItemQuizBinding
 
 
@@ -32,6 +33,10 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
 
         holder.binding.optionBtn.setOnClickListener {
             showPopupMenu(holder.binding.optionBtn, quiz)
+        }
+
+        holder.binding.QuestionTV.setOnClickListener {
+            showDialogDetailQuiz(quiz)
         }
     }
 
@@ -66,6 +71,33 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
 
     private fun showEditDialog(view: View, quiz: Quiz){
         quizActivity.showEditQuizDialog(quiz)
+    }
+
+    private fun showDialogDetailQuiz(quiz: Quiz) {
+        val dialogBinding = DialogDetailQuizBinding.inflate(LayoutInflater.from(quizActivity))
+        val dialogBuilder = AlertDialog.Builder(quizActivity)
+        val alertDialog = dialogBuilder.create()
+
+        // Set values
+        dialogBinding.questionTV.text = "Q. "+quiz.question
+        dialogBinding.answerTV.text = "A. "+quiz.answer
+
+        if (quiz.imageUri.isNullOrEmpty()) {
+            dialogBinding.addPhotoIV.visibility = View.GONE
+        } else {
+            dialogBinding.addPhotoIV.visibility = View.VISIBLE
+            Glide.with(quizActivity)
+                .load(quiz.imageUri!!.toUri())
+                .into(dialogBinding.addPhotoIV)
+        }
+
+        alertDialog.setView(dialogBinding.root)
+        alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogBinding.closeBtn.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        alertDialog.show()
     }
 
     private fun updateQuestionText(quiz: Quiz, newQuestion: String, newAnswer: String){

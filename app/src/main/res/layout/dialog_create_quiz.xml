@@ -28,7 +28,7 @@
         android:src="@drawable/add_photo_white" />
 
     <ImageView
-        android:id="@+id/imgaeDeleteBtn"
+        android:id="@+id/imageDeleteBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="end"
