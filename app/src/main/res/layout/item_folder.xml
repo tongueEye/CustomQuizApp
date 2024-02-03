@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="18dp"
         android:fontFamily="@font/nexon_cart_gothic_bold"
-        android:text="문제집 이름"
+        android:text="@string/folderName"
         android:textColor="@color/white"
         android:textSize="23dp"
         app:layout_constraintStart_toEndOf="@+id/IconIV"

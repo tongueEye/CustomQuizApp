@@ -29,7 +29,12 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
 
     override fun onBindViewHolder(holder: QuizViewHolder, position: Int) {
         val quiz = quizList[position]
-        holder.binding.QuestionTV.text = quiz.question
+        //holder.binding.QuestionTV.text = quiz.question
+        if (quiz.question.length > 15) {
+            holder.binding.QuestionTV.text = "${quiz.question.substring(0, 15)}..."
+        } else {
+            holder.binding.QuestionTV.text = quiz.question
+        }
 
         holder.binding.optionBtn.setOnClickListener {
             showPopupMenu(holder.binding.optionBtn, quiz)

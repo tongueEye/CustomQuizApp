@@ -18,6 +18,8 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.module.AppGlideModule
 import com.example.customquizapp.databinding.ActivityQuizBinding
+import com.example.customquizapp.databinding.DialogConfirm2Binding
+import com.example.customquizapp.databinding.DialogConfirm3Binding
 import com.example.customquizapp.databinding.DialogCreateQuizBinding
 import java.io.InputStream
 
@@ -29,6 +31,7 @@ class QuizActivity: AppCompatActivity() {
     private var folderName: String = " "
     private var selectedImageUri: Uri?=null // 이미지를 저장할 변수 추가
     private lateinit var dialogBinding: DialogCreateQuizBinding // 다이얼로그 바인딩 변수 추가
+
 
     private var DELETE_IMAGE_CHECK = 0 //이미지 삭제 버튼 클릭 여부 변수
 
@@ -46,8 +49,18 @@ class QuizActivity: AppCompatActivity() {
 
         binding.folderTitleTV.text = folderName
 
+        binding.correctResetBtn.setOnClickListener {
+            showResetCorrectDialog()
+        }
+
         binding.addQuizBtn.setOnClickListener {
             showCreateQuizDialog()
+        }
+
+        binding.PlayQuizBtn.setOnClickListener {
+            if (quizDao != null) {
+                showPlayQuizDialog(quizDao)
+            }
         }
 
         //RecyclerView 설정
@@ -101,14 +114,18 @@ class QuizActivity: AppCompatActivity() {
             val quizText = dialogBinding.quizEditText.text.toString()
             val answerText = dialogBinding.quizAnswerEditText.text.toString()
             Toast.makeText(this, "비트맵 이미지: $selectedImageUri", Toast.LENGTH_SHORT).show()
-            if (DELETE_IMAGE_CHECK == 1){ // 사진이 선택되지 않고 이미지 삭제 버튼이 눌린경우
-                saveQuiz(quizText, answerText, folderName, null)
-            } else{
-                saveQuiz(quizText, answerText, folderName, selectedImageUri)
+            if (quizText.isEmpty() || answerText.isEmpty()) {
+                Toast.makeText(this, "퀴즈와 정답을 모두 입력해 주세요!", Toast.LENGTH_SHORT).show()
+            } else {
+                if (DELETE_IMAGE_CHECK == 1){ // 사진이 선택되지 않고 이미지 삭제 버튼이 눌린경우
+                    saveQuiz(quizText, answerText, folderName, null)
+                } else{
+                    saveQuiz(quizText, answerText, folderName, selectedImageUri)
+                }
+                selectedImageUri = null
+                dialog.dismiss()
             }
 
-            selectedImageUri = null
-            dialog.dismiss()
         }
         dialog.show()
     }
@@ -170,26 +187,76 @@ class QuizActivity: AppCompatActivity() {
             // 저장 버튼 클릭 시 처리할 작업 수행
             val quizText = dialogBinding.quizEditText.text.toString()
             val answerText = dialogBinding.quizAnswerEditText.text.toString()
-            val currentImage = quizDao?.getImageUri(quiz.id)?.toUri()
-            Toast.makeText(this, "이미지 URI: $selectedImageUri", Toast.LENGTH_SHORT).show()
-
-            if(selectedImageUri != null){ //갤러리에서 새로 사진을 선택한 경우
-                // 선택한 사진을 저장
-                updateQuiz(quiz.id, quizText, answerText, folderName, selectedImageUri)
-            } else{ //갤러리에서 새로 사진을 선택하지 않은 경우
-                // 기존의 이미지를 그대로 저장
-                updateQuiz(quiz.id, quizText, answerText, folderName, currentImage)
+            if (quizText.isEmpty() || answerText.isEmpty()) {
+                Toast.makeText(this, "퀴즈와 정답을 입력하세요.", Toast.LENGTH_SHORT).show()
+            } else {
+                val currentImage = quizDao?.getImageUri(quiz.id)?.toUri()
+                Toast.makeText(this, "이미지 URI: $selectedImageUri", Toast.LENGTH_SHORT).show()
+                if (selectedImageUri != null) { //갤러리에서 새로 사진을 선택한 경우
+                    // 선택한 사진을 저장
+                    updateQuiz(quiz.id, quizText, answerText, folderName, selectedImageUri)
+                } else { //갤러리에서 새로 사진을 선택하지 않은 경우
+                    // 기존의 이미지를 그대로 저장
+                    updateQuiz(quiz.id, quizText, answerText, folderName, currentImage)
+                }
+                if (DELETE_IMAGE_CHECK == 1) { // 사진이 선택되지 않고 이미지 삭제 버튼이 눌린경우
+                    quizDao?.updateQuizImageUri(quiz.id) //DB에 저장된 이미지를 null로 바꿈
+                }
+                Toast.makeText(this, "퀴즈가 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                loadQuizList(folderName)
+                selectedImageUri = null
+                dialog.dismiss()
             }
+        }
+        dialog.show()
+    }
 
-            if (DELETE_IMAGE_CHECK == 1){ // 사진이 선택되지 않고 이미지 삭제 버튼이 눌린경우
-                quizDao?.updateQuizImageUri(quiz.id) //DB에 저장된 이미지를 null로 바꿈
-            }
+    fun showResetCorrectDialog(){
+        val confirm2Binding = DialogConfirm2Binding.inflate(LayoutInflater.from(this))
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(confirm2Binding.root)
+        val dialog = dialogBuilder.create()
 
-            Toast.makeText(this, "퀴즈가 수정되었습니다.", Toast.LENGTH_SHORT).show()
-            loadQuizList(folderName)
-            selectedImageUri = null
+        // 다이얼로그 배경을 투명색으로 설정
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        confirm2Binding.confirmTextView.text = "맞춘 퀴즈를 초기화 할까요?"
+        confirm2Binding.noButton.setOnClickListener {
             dialog.dismiss()
         }
+        confirm2Binding.yesButton.setOnClickListener {
+            Toast.makeText(this, "퀴즈 테이블 is Correct를 모두 false로 바꾸는 작업 구현할것", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun showPlayQuizDialog(quizDao: QuizDao){
+        val confirmDialogBinding = DialogConfirm3Binding.inflate(LayoutInflater.from(this))
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setView(confirmDialogBinding.root)
+        val dialog = dialogBuilder.create()
+
+        // 다이얼로그 배경을 투명색으로 설정
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // 퀴즈 목록 수 가져오기
+        val quizListCount = quizDao?.getAllQuizzes(folderName)?.size ?: 0
+        // isCurrent 속성값이 false인 것의 수 가져오기
+        val notCorrectCount = quizDao?.getAllQuizzes(folderName)?.count { !it.isCorrect } ?: 0
+        confirmDialogBinding.confirmTextView.text = "퀴즈를 시작할까요?"
+        confirmDialogBinding.quizCntTV.text = "(풀 문제: ${notCorrectCount} / 전체 문제: ${quizListCount})"
+
+        confirmDialogBinding.noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        confirmDialogBinding.yesButton.setOnClickListener {
+            Toast.makeText(this, "퀴즈 화면으로 이동", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+            // 이동할 화면 또는 기능 추가
+        }
+
         dialog.show()
     }
 
