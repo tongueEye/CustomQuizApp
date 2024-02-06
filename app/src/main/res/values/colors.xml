@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
     <color name="dark_night">#0B3041</color>
+    <color name="light_sky">#96DCF8</color>
 </resources>

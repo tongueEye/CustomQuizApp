@@ -253,10 +253,17 @@ class QuizActivity: AppCompatActivity() {
 
         confirmDialogBinding.yesButton.setOnClickListener {
             Toast.makeText(this, "퀴즈 화면으로 이동", Toast.LENGTH_SHORT).show()
+            val quizList = quizDao.getAllQuizzes(folderName)
+            if (quizList.isNotEmpty()) {
+                val intent = Intent(this@QuizActivity, PlayQuizActivity::class.java)
+                intent.putExtra("folder_name", folderName)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this@QuizActivity, "퀴즈가 없습니다.", Toast.LENGTH_SHORT).show()
+            }
             dialog.dismiss()
             // 이동할 화면 또는 기능 추가
         }
-
         dialog.show()
     }
 

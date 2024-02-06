@@ -28,6 +28,9 @@
             android:name=".QuizActivity"
             android:exported="false"/>
         <activity
+            android:name=".PlayQuizActivity"
+            android:exported="false"/>
+        <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
