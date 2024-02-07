@@ -1,17 +1,24 @@
 package com.example.customquizapp
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.example.customquizapp.databinding.ActivityPlayQuizBinding
+import com.example.customquizapp.databinding.DialogConfirm2Binding
+import com.example.customquizapp.databinding.DialogConfirmBinding
 
 class PlayQuizActivity:AppCompatActivity() {
     private lateinit var binding: ActivityPlayQuizBinding
     private var folderName: String? = null
+    private var unSolvedQuizzes: List<Quiz>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +27,24 @@ class PlayQuizActivity:AppCompatActivity() {
 
         // 폴더 이름을 인텐트로부터 받아옴
         folderName = intent.getStringExtra("folder_name")
-        Toast.makeText(this, "${folderName}",Toast.LENGTH_SHORT).show()
 
-        var currentIndex = 0
+        val db = AppDatabase.getDatabase(applicationContext)
+        val quizDao = db?.quizDao()
 
-        loadQuizData(currentIndex)
+        //맞추지 않은 문제들을 랜덤하게 섞어서 가져옴
+        unSolvedQuizzes = folderName?.let { quizDao?.getAllUnsolvedQuizzes(it)?.shuffled() }
+        //맞추지 않은 문제들을 순서대로 가져옴
+        //unSolvedQuizzes = folderName?.let { quizDao?.getAllUnsolvedQuizzes(it) }
 
+        // 풀리지 않은 퀴즈 목록이 비어있는지 확인
+        if (unSolvedQuizzes!!.isNotEmpty()) {
+            // 풀리지 않은 퀴즈 목록이 비어있지 않으면 퀴즈 데이터 로드 및 화면 설정
+            loadQuizData(0) // 첫 번째 퀴즈 로드
+        } else {
+            // 풀리지 않은 퀴즈 목록이 비어있으면 알림 표시
+            Toast.makeText(this, "해당 폴더에 풀리지 않은 퀴즈가 없습니다.", Toast.LENGTH_SHORT).show()
+            finish() // 액티비티 종료
+        }
 
     }
 
@@ -33,7 +52,7 @@ class PlayQuizActivity:AppCompatActivity() {
         //folderName으로 quiz Data를 가져옴
         val db = AppDatabase.getDatabase(applicationContext)
         val quizDao = db?.quizDao()
-        val quizData = folderName?.let { quizDao?.getAllQuizzes(it) }
+        val quizData = unSolvedQuizzes
 
         // 퀴즈 데이터가 null이거나 currentIdx가 퀴즈 데이터의 범위를 벗어나면 함수 종료
         if (quizData == null || currentIdx < 0 || currentIdx >= quizData.size) {
@@ -113,7 +132,7 @@ class PlayQuizActivity:AppCompatActivity() {
                 binding.questionTV.text = quizData[currentIdx].answer
                 binding.questionIV.visibility = View.GONE
                 binding.answerCheckTV.text = "(문제 확인)"
-                binding.dialogTV.text = if (currentQuiz.isCorrect) "정답입니다!" else "맞췄다면 \n날 클릭해봐!"
+                binding.dialogTV.text = if (currentQuiz.isCorrect) "틀렸다면 \n날 클릭해봐!" else "맞췄다면 \n날 클릭해봐!"
 
             } else {
                 // 문제 확인 모드에서는 다시 문제를 보여주고 정답확인 모드 셋팅
@@ -124,5 +143,45 @@ class PlayQuizActivity:AppCompatActivity() {
                 binding.dialogTV.text = if (currentQuiz.isCorrect) "맞춘\n문제입니다!" else "맞춰봐!"
             }
         }
+
+        binding.exitBtn.setOnClickListener {
+            if(binding.dialogTV.text == "맞춘\n문제입니다!" || binding.dialogTV.text == "틀렸다면 \n날 클릭해봐!"){
+                val dialogBinding = DialogConfirm2Binding.inflate(LayoutInflater.from(this))
+                val dialogBuilder = AlertDialog.Builder(this)
+                val alertDialog = dialogBuilder.create()
+
+                alertDialog.setView(dialogBinding.root)
+                alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialogBinding.confirmTextView.text="퀴즈를 종료할까요?"
+
+                dialogBinding.noButton.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+                dialogBinding.yesButton.setOnClickListener {
+                    alertDialog.dismiss()
+                    finish()
+                }
+                alertDialog.show()
+            }else{
+                val dialogBinding = DialogConfirmBinding.inflate(LayoutInflater.from(this))
+                val dialogBuilder = AlertDialog.Builder(this)
+                val alertDialog = dialogBuilder.create()
+
+                alertDialog.setView(dialogBinding.root)
+                alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialogBinding.confirmTextView.text="퀴즈를 종료할까요?"
+
+                dialogBinding.noButton.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+                dialogBinding.yesButton.setOnClickListener {
+                    alertDialog.dismiss()
+                    finish()
+                }
+                alertDialog.show()
+            }
+
+        }
+
     }
 }

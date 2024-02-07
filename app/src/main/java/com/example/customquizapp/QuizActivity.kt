@@ -225,8 +225,20 @@ class QuizActivity: AppCompatActivity() {
             dialog.dismiss()
         }
         confirm2Binding.yesButton.setOnClickListener {
-            Toast.makeText(this, "퀴즈 테이블 is Correct를 모두 false로 바꾸는 작업 구현할것", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
+            // 모든 퀴즈의 isCorrect 값을 false로 업데이트
+            val db = AppDatabase.getDatabase(applicationContext)
+            val quizDao = db?.quizDao()
+            folderName?.let { folderName ->
+                val quizzesInFolder = quizDao?.getAllQuizzes(folderName)
+                quizzesInFolder?.forEach { quiz ->
+                    quiz.isCorrect = false
+                    quiz.id?.let { quizId ->
+                        quizDao?.updateQuiz(quiz)
+                    }
+                }
+                Toast.makeText(this, "맞춘 퀴즈를 초기화 했습니다.", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
         }
         dialog.show()
     }
@@ -252,17 +264,15 @@ class QuizActivity: AppCompatActivity() {
         }
 
         confirmDialogBinding.yesButton.setOnClickListener {
-            Toast.makeText(this, "퀴즈 화면으로 이동", Toast.LENGTH_SHORT).show()
             val quizList = quizDao.getAllQuizzes(folderName)
             if (quizList.isNotEmpty()) {
                 val intent = Intent(this@QuizActivity, PlayQuizActivity::class.java)
                 intent.putExtra("folder_name", folderName)
                 startActivity(intent)
             } else {
-                Toast.makeText(this@QuizActivity, "퀴즈가 없습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QuizActivity, "풀 퀴즈가 없습니다.", Toast.LENGTH_SHORT).show()
             }
             dialog.dismiss()
-            // 이동할 화면 또는 기능 추가
         }
         dialog.show()
     }

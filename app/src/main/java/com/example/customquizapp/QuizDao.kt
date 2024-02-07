@@ -28,4 +28,7 @@ interface QuizDao {
 
     @Query("DELETE FROM quiz WHERE id = :quizId")
     fun DeleteQuizById(quizId: Int): Int
+
+    @Query("SELECT * FROM quiz WHERE folderName = :folderName AND isCorrect = 0")
+    fun getAllUnsolvedQuizzes(folderName: String): List<Quiz>?
 }
