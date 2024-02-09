@@ -1,5 +1,6 @@
 package com.example.customquizapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -48,7 +49,7 @@ class PlayQuizActivity:AppCompatActivity() {
 
     }
 
-    fun loadQuizData(currentIdx: Int) {
+    private fun loadQuizData(currentIdx: Int) {
         //folderName으로 quiz Data를 가져옴
         val db = AppDatabase.getDatabase(applicationContext)
         val quizDao = db?.quizDao()
@@ -90,7 +91,7 @@ class PlayQuizActivity:AppCompatActivity() {
         }
         binding.devilCheckBtn.setImageResource(imageResource)
 
-        val imageUri = currentQuiz.id?.let { quizDao?.getImageUri(it)?.toUri() }
+        val imageUri = currentQuiz.id.let { quizDao?.getImageUri(it)?.toUri() }
 
         if (imageUri != null && imageUri.toString().isNotBlank()) {
             binding.questionIV.visibility = View.VISIBLE // 이미지가 있을 때 보이도록 설정
@@ -104,6 +105,7 @@ class PlayQuizActivity:AppCompatActivity() {
         // rightBtn을 클릭했을 때, 인덱스를 증가시키고 퀴즈 사이즈 보다 크면 시 첫 인덱스로 돌아가도록 처리
         binding.rightBtn.setOnClickListener {
             val nextIdx = (currentIdx + 1) % quizData.size
+
             loadQuizData(nextIdx)
         }
 
@@ -117,7 +119,7 @@ class PlayQuizActivity:AppCompatActivity() {
             if (binding.answerCheckTV.text == "(문제 확인)"){
                 // 현재 퀴즈의 isCorrect 값을 토글
                 quizData[currentIdx].isCorrect = !quizData[currentIdx].isCorrect
-                quizData[currentIdx].id?.let { quizId ->
+                quizData[currentIdx].id.let {
                     // 데이터베이스에 업데이트
                     quizDao?.updateQuiz(quizData[currentIdx])
 
@@ -137,7 +139,15 @@ class PlayQuizActivity:AppCompatActivity() {
             } else {
                 // 문제 확인 모드에서는 다시 문제를 보여주고 정답확인 모드 셋팅
                 binding.questionTV.text = quizData[currentIdx].question
-                binding.questionIV.visibility = View.VISIBLE
+
+                if (imageUri != null && imageUri.toString().isNotBlank()) {
+                    binding.questionIV.visibility = View.VISIBLE // 이미지가 있을 때 보이도록 설정
+                    Glide.with(this)
+                        .load(imageUri)
+                        .into(binding.questionIV)
+                } else{
+                    binding.questionIV.visibility = View.GONE // 이미지가 없을 때 숨김 처리
+                }
                 binding.answerCheckTV.text = "(정답 확인)"
 
                 binding.dialogTV.text = if (currentQuiz.isCorrect) "맞춘\n문제입니다!" else "맞춰봐!"
@@ -145,6 +155,7 @@ class PlayQuizActivity:AppCompatActivity() {
         }
 
         binding.exitBtn.setOnClickListener {
+            // quizAdapter 초기화
             if(binding.dialogTV.text == "맞춘\n문제입니다!" || binding.dialogTV.text == "틀렸다면 \n날 클릭해봐!"){
                 val dialogBinding = DialogConfirm2Binding.inflate(LayoutInflater.from(this))
                 val dialogBuilder = AlertDialog.Builder(this)

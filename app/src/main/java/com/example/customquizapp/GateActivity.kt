@@ -16,7 +16,6 @@ class GateActivity: AppCompatActivity() {
     private lateinit var binding: ActivityGateBinding
     private lateinit var folderAdapter: FolderAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGateBinding.inflate(layoutInflater)
@@ -34,9 +33,7 @@ class GateActivity: AppCompatActivity() {
         binding.folderListRV.layoutManager = LinearLayoutManager(this)
 
         //folderAdapter 초기화
-        //folderAdapter = FolderAdapter()
         folderAdapter = folderDao?.let { FolderAdapter(it) }!!
-
 
         //Adapter 적용
         binding.folderListRV.adapter = folderAdapter

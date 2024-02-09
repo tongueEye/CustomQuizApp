@@ -92,7 +92,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
-
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/quiz_paper_IV"
         app:layout_constraintStart_toStartOf="@+id/quiz_paper_IV"
         app:layout_constraintTop_toBottomOf="@+id/devil_check_btn"

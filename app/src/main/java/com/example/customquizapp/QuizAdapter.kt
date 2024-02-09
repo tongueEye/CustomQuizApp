@@ -43,6 +43,7 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
         holder.binding.QuestionTV.setOnClickListener {
             showDialogDetailQuiz(quiz)
         }
+
     }
 
     override fun getItemCount() = quizList.size
@@ -103,13 +104,6 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
             alertDialog.dismiss()
         }
         alertDialog.show()
-    }
-
-    private fun updateQuestionText(quiz: Quiz, newQuestion: String, newAnswer: String){
-        quiz.question = newQuestion
-        quiz.answer = newAnswer
-        quizDao.updateQuiz(quiz)
-        notifyDataSetChanged()
     }
 
     private fun showDeleteComfirmDialog(context: Context, quiz: Quiz){

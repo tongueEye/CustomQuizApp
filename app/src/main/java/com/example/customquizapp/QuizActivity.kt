@@ -14,9 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.module.AppGlideModule
 import com.example.customquizapp.databinding.ActivityQuizBinding
 import com.example.customquizapp.databinding.DialogConfirm2Binding
 import com.example.customquizapp.databinding.DialogConfirm3Binding
