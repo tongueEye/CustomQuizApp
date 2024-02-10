@@ -72,6 +72,12 @@ class QuizActivity: AppCompatActivity() {
         loadQuizList(folderName)
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 다시 화면으로 돌아올 때 데이터를 다시 로드하여 IconIV 바로 갱신
+        loadQuizList(folderName)
+    }
+
     private val PICK_IMAGE_REQUEST = 1
 
     fun showCreateQuizDialog() {
@@ -233,6 +239,7 @@ class QuizActivity: AppCompatActivity() {
                             quizDao.updateQuiz(quiz)
                         }
                     }
+                    loadQuizList(folderName)
                     Toast.makeText(this, "맞춘 퀴즈를 초기화 했습니다.", Toast.LENGTH_SHORT).show()
                     dialog.dismiss()
                 }

@@ -42,6 +42,12 @@ class GateActivity: AppCompatActivity() {
         loadFolderList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 다시 화면으로 돌아올 때 데이터를 다시 로드하여 IconIV 바로 갱신
+        loadFolderList()
+    }
+
     //폴더 목록 조회
     private fun loadFolderList(){
         val folderList: List<Folder> = AppDatabase.getDatabase(applicationContext)?.folderDao()?.getAllFolder()

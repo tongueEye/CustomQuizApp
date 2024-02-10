@@ -27,7 +27,7 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
 
     override fun onBindViewHolder(holder: QuizViewHolder, position: Int) {
         val quiz = quizList[position]
-        //holder.binding.QuestionTV.text = quiz.question
+
         if (quiz.question.length > 15) {
             holder.binding.QuestionTV.text = "${quiz.question.substring(0, 15)}..."
         } else {
@@ -40,6 +40,13 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
 
         holder.binding.QuestionTV.setOnClickListener {
             showDialogDetailQuiz(quiz)
+        }
+
+        // isCorrect에 따라 이미지 설정
+        if (quiz.isCorrect == false){
+            holder.binding.IconIV.setImageResource(R.drawable.skull1)
+        } else{
+            holder.binding.IconIV.setImageResource(R.drawable.flame3_blue)
         }
 
     }

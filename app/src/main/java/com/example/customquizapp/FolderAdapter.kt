@@ -28,6 +28,19 @@ class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<Fold
         val folder = folderList[position]
         holder.binding.folderNameTV.text = folder.folderName
 
+        // 폴더에 속한 퀴즈들의 isCorrect 값을 확인
+        val allQuizzes = folder.folderName?.let {
+            AppDatabase.getDatabase(holder.itemView.context)?.quizDao()?.getAllQuizzes(it)
+        } ?: emptyList()
+        val allCorrect = allQuizzes.all { it.isCorrect }
+
+        // isCorrect 값에 따라서 아이콘 설정
+        if (allQuizzes.isEmpty() || !allCorrect) {
+            holder.binding.IconIV.setImageResource(R.drawable.flame3)
+        } else {
+            holder.binding.IconIV.setImageResource(R.drawable.magic_btn1)
+        }
+
         holder.binding.folderNameTV.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, QuizActivity::class.java)
@@ -38,6 +51,7 @@ class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<Fold
         holder.binding.optionBtn.setOnClickListener {
             showPopupMenu(holder.binding.optionBtn, folder)
         }
+
     }
 
     override fun getItemCount() = folderList.size
