@@ -77,15 +77,19 @@ class GateActivity: AppCompatActivity() {
 
             val folderName = dialogBinding.folderNameEditText.text.toString()
             val existingFolder = AppDatabase.getDatabase(applicationContext)?.folderDao()?.getFolderByName(folderName)
-            if (existingFolder == null) {
-                // 동일한 이름의 폴더가 없는 경우에만 새로운 폴더 추가
-                insertFolder(folderName)
-                loadFolderList()
-                alertDialog.dismiss() // 다이얼로그를 닫음
-                Toast.makeText(this, "새 문제집이 추가되었습니다.", Toast.LENGTH_SHORT).show()
-            } else {
-                // 동일한 이름의 폴더가 이미 존재하는 경우
-                Toast.makeText(this, "이미 존재하는 문제집입니다.", Toast.LENGTH_SHORT).show()
+            if (folderName.isNotEmpty()){
+                if (existingFolder == null) {
+                    // 동일한 이름의 폴더가 없는 경우에만 새로운 폴더 추가
+                    insertFolder(folderName)
+                    loadFolderList()
+                    alertDialog.dismiss() // 다이얼로그를 닫음
+                    Toast.makeText(this, "새 문제집이 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 동일한 이름의 폴더가 이미 존재하는 경우
+                    Toast.makeText(this, "이미 존재하는 문제집입니다.", Toast.LENGTH_SHORT).show()
+                }
+            } else{
+                Toast.makeText(this, "문제집 이름을 입력하세요!", Toast.LENGTH_SHORT).show()
             }
         }
         // 다이얼로그 표시

@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.customquizapp.databinding.DialogConfirmBinding
 import com.example.customquizapp.databinding.DialogCreateFolderBinding
 import com.example.customquizapp.databinding.ItemFolderBinding
-import kotlin.coroutines.coroutineContext
 
 class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<FolderAdapter.Holder>() {
     private var folderList: MutableList<Folder> = mutableListOf()
@@ -91,13 +89,13 @@ class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<Fold
                 val existingFolder = folderDao.getFolderByName(newName)
                 if (existingFolder == null || existingFolder.id == folder.id) {
                     alertDialog.dismiss()
-                    Toast.makeText(view.context, "문제집 이름이 업데이트되었습니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(view.context, "문제집 이름이 수정되었습니다.", Toast.LENGTH_LONG).show()
 
                     // 폴더 이름 업데이트
                     updateFolderName(folder, newName)
                 } else {
                     // 이미 존재하는 폴더 이름인 경우
-                    Toast.makeText(view.context, "이미 존재하는 문제집 이름입니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(view.context, "이미 존재하는 문제집입니다.", Toast.LENGTH_LONG).show()
                 }
 
             } else {

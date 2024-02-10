@@ -1,6 +1,5 @@
 package com.example.customquizapp
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -43,7 +42,8 @@ class PlayQuizActivity:AppCompatActivity() {
             loadQuizData(0) // 첫 번째 퀴즈 로드
         } else {
             // 풀리지 않은 퀴즈 목록이 비어있으면 알림 표시
-            Toast.makeText(this, "해당 폴더에 풀리지 않은 퀴즈가 없습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "퀴즈를 모두 맞췄네요! \uD83D\uDC4F \uD83D\uDC4F", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "퀴즈를 다시 맞추려면 모래시계 버튼을 클릭해주세요.", Toast.LENGTH_LONG).show()
             finish() // 액티비티 종료
         }
 

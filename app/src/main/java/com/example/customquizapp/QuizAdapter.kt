@@ -13,8 +13,6 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.customquizapp.databinding.DialogConfirm2Binding
-import com.example.customquizapp.databinding.DialogConfirmBinding
-import com.example.customquizapp.databinding.DialogCreateQuizBinding
 import com.example.customquizapp.databinding.DialogDetailQuizBinding
 import com.example.customquizapp.databinding.ItemQuizBinding
 

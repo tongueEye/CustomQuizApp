@@ -18,7 +18,6 @@ import com.example.customquizapp.databinding.ActivityQuizBinding
 import com.example.customquizapp.databinding.DialogConfirm2Binding
 import com.example.customquizapp.databinding.DialogConfirm3Binding
 import com.example.customquizapp.databinding.DialogCreateQuizBinding
-import java.io.InputStream
 
 
 class QuizActivity: AppCompatActivity() {
@@ -110,9 +109,9 @@ class QuizActivity: AppCompatActivity() {
             // 저장 버튼 클릭 시 처리할 작업 수행
             val quizText = dialogBinding.quizEditText.text.toString()
             val answerText = dialogBinding.quizAnswerEditText.text.toString()
-            Toast.makeText(this, "비트맵 이미지: $selectedImageUri", Toast.LENGTH_SHORT).show()
+
             if (quizText.isEmpty() || answerText.isEmpty()) {
-                Toast.makeText(this, "퀴즈와 정답을 모두 입력해 주세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "문제와 정답을 모두 입력해 주세요!", Toast.LENGTH_SHORT).show()
             } else {
                 if (DELETE_IMAGE_CHECK == 1){ // 사진이 선택되지 않고 이미지 삭제 버튼이 눌린경우
                     saveQuiz(quizText, answerText, folderName, null)
@@ -147,7 +146,6 @@ class QuizActivity: AppCompatActivity() {
         dialogBinding.quizEditText.setText(quiz.question)
         dialogBinding.quizAnswerEditText.setText(quiz.answer)
         if (imageUri != null && imageUri.toString().isNotBlank()) {
-            Toast.makeText(this,"null이 아니라 ${imageUri}",Toast.LENGTH_SHORT).show()
             Glide.with(this)
                 .load(imageUri)
                 .placeholder(R.drawable.add_photo_white) // 기본 이미지 설정
@@ -185,10 +183,9 @@ class QuizActivity: AppCompatActivity() {
             val quizText = dialogBinding.quizEditText.text.toString()
             val answerText = dialogBinding.quizAnswerEditText.text.toString()
             if (quizText.isEmpty() || answerText.isEmpty()) {
-                Toast.makeText(this, "퀴즈와 정답을 입력하세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "문제와 정답을 모두 입력해주세요!", Toast.LENGTH_SHORT).show()
             } else {
                 val currentImage = quizDao?.getImageUri(quiz.id)?.toUri()
-                Toast.makeText(this, "이미지 URI: $selectedImageUri", Toast.LENGTH_SHORT).show()
                 if (selectedImageUri != null) { //갤러리에서 새로 사진을 선택한 경우
                     // 선택한 사진을 저장
                     updateQuiz(quiz.id, quizText, answerText, folderName, selectedImageUri)
@@ -225,17 +222,25 @@ class QuizActivity: AppCompatActivity() {
             // 모든 퀴즈의 isCorrect 값을 false로 업데이트
             val db = AppDatabase.getDatabase(applicationContext)
             val quizDao = db?.quizDao()
-            folderName?.let { folderName ->
-                val quizzesInFolder = quizDao?.getAllQuizzes(folderName)
-                quizzesInFolder?.forEach { quiz ->
-                    quiz.isCorrect = false
-                    quiz.id?.let { quizId ->
-                        quizDao?.updateQuiz(quiz)
+            val quizList = quizDao?.getAllQuizzes(folderName)
+
+            if (quizList!!.isNotEmpty()){
+                folderName.let { folderName ->
+                    val quizzesInFolder = quizDao.getAllQuizzes(folderName)
+                    quizzesInFolder.forEach { quiz ->
+                        quiz.isCorrect = false
+                        quiz.id.let { quizId ->
+                            quizDao.updateQuiz(quiz)
+                        }
                     }
+                    Toast.makeText(this, "맞춘 퀴즈를 초기화 했습니다.", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
                 }
-                Toast.makeText(this, "맞춘 퀴즈를 초기화 했습니다.", Toast.LENGTH_SHORT).show()
+            } else{
+                Toast.makeText(this, "초기화 할 퀴즈가 없습니다.", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
             }
+
         }
         dialog.show()
     }
@@ -250,9 +255,9 @@ class QuizActivity: AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         // 퀴즈 목록 수 가져오기
-        val quizListCount = quizDao?.getAllQuizzes(folderName)?.size ?: 0
+        val quizListCount = quizDao.getAllQuizzes(folderName).size
         // isCurrent 속성값이 false인 것의 수 가져오기
-        val notCorrectCount = quizDao?.getAllQuizzes(folderName)?.count { !it.isCorrect } ?: 0
+        val notCorrectCount = quizDao.getAllQuizzes(folderName).count { !it.isCorrect }
         confirmDialogBinding.confirmTextView.text = "퀴즈를 시작할까요?"
         confirmDialogBinding.quizCntTV.text = "(풀 문제: ${notCorrectCount} / 전체 문제: ${quizListCount})"
 
@@ -267,7 +272,7 @@ class QuizActivity: AppCompatActivity() {
                 intent.putExtra("folder_name", folderName)
                 startActivity(intent)
             } else {
-                Toast.makeText(this@QuizActivity, "풀 퀴즈가 없습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QuizActivity, "퀴즈가 없습니다. 퀴즈를 추가해주세요!", Toast.LENGTH_SHORT).show()
             }
             dialog.dismiss()
         }
@@ -301,7 +306,7 @@ class QuizActivity: AppCompatActivity() {
         val imageUriString = imageUri?.toString() ?: ""
         val quiz = Quiz(folderName = folderName, question = quizText, answer = answerText, imageUri = imageUriString)
         AppDatabase.getDatabase(applicationContext)?.quizDao()?.insertQuiz(quiz)
-        Toast.makeText(this, "퀴즈가 저장되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "퀴즈가 추가되었습니다.", Toast.LENGTH_SHORT).show()
         loadQuizList(folderName)
     }
 
