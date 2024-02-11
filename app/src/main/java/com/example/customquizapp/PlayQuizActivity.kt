@@ -1,5 +1,6 @@
 package com.example.customquizapp
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -49,11 +50,13 @@ class PlayQuizActivity:AppCompatActivity() {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun loadQuizData(currentIdx: Int) {
         //folderName으로 quiz Data를 가져옴
         val db = AppDatabase.getDatabase(applicationContext)
         val quizDao = db?.quizDao()
         val quizData = unSolvedQuizzes
+        var isImageZoomed = false // 이미지 확대 여부를 저장하기 위한 변수
 
         // 퀴즈 데이터가 null이거나 currentIdx가 퀴즈 데이터의 범위를 벗어나면 함수 종료
         if (quizData == null || currentIdx < 0 || currentIdx >= quizData.size) {
@@ -98,6 +101,22 @@ class PlayQuizActivity:AppCompatActivity() {
             Glide.with(this)
                 .load(imageUri)
                 .into(binding.questionIV)
+            binding.questionIV.scaleX = 1.0f
+            binding.questionIV.scaleY = 1.0f
+
+            binding.questionIV.setOnClickListener {
+                if (isImageZoomed) {
+                    // 이미지가 확대된 상태이면 원래 크기로 돌아감
+                    binding.questionIV.scaleX = 1.0f
+                    binding.questionIV.scaleY = 1.0f
+                } else {
+                    // 이미지가 원래 크기인 상태이면 확대
+                    binding.questionIV.scaleX = 2.5f
+                    binding.questionIV.scaleY = 2.5f
+                }
+                isImageZoomed = !isImageZoomed // 이미지의 확대/축소 상태를 토글
+            }
+
         } else{
             binding.questionIV.visibility = View.GONE // 이미지가 없을 때 숨김 처리
         }
@@ -105,13 +124,14 @@ class PlayQuizActivity:AppCompatActivity() {
         // rightBtn을 클릭했을 때, 인덱스를 증가시키고 퀴즈 사이즈 보다 크면 시 첫 인덱스로 돌아가도록 처리
         binding.rightBtn.setOnClickListener {
             val nextIdx = (currentIdx + 1) % quizData.size
-
+            isImageZoomed = false
             loadQuizData(nextIdx)
         }
 
         // leftBtn을 클릭했을 때, 인덱스를 감소시키고 0보다 작으면 그 마지막 인덱스로 가도록 처리
         binding.leftBtn.setOnClickListener {
             val prevIdx = if (currentIdx - 1 < 0) quizData.size - 1 else currentIdx - 1
+            isImageZoomed = false
             loadQuizData(prevIdx)
         }
 
