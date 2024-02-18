@@ -1,16 +1,22 @@
 package com.example.customquizapp
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -28,7 +34,7 @@ class QuizActivity: AppCompatActivity() {
     private var selectedImageUri: Uri?=null // 이미지를 저장할 변수 추가
     private lateinit var dialogBinding: DialogCreateQuizBinding // 다이얼로그 바인딩 변수 추가
 
-
+    private val PERMISSION_REQUEST_CODE = 1001 //권한 요청 코드
     private var DELETE_IMAGE_CHECK = 0 //이미지 삭제 버튼 클릭 여부 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,8 +96,7 @@ class QuizActivity: AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         dialogBinding.addPhotoIV.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+            checkAndRequestPermission()
         }
 
         dialogBinding.imageDeleteBtn.setOnClickListener {
@@ -105,6 +110,36 @@ class QuizActivity: AppCompatActivity() {
             DELETE_IMAGE_CHECK = 1
 
         }
+
+        dialogBinding.quizEditText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 변경 중
+                dialogBinding.qtextCountTV.text="(${s?.length}자/100자)"
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+        dialogBinding.quizAnswerEditText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 변경 중
+                dialogBinding.atextCountTV.text="(${s?.length}자/100자)"
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
 
         // 다이얼로그 내 버튼 클릭 이벤트 처리
         dialogBinding.cancelBtn.setOnClickListener {
@@ -130,6 +165,46 @@ class QuizActivity: AppCompatActivity() {
 
         }
         dialog.show()
+    }
+
+    private fun checkAndRequestPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // 권한이 없는 경우 권한 요청
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                PERMISSION_REQUEST_CODE
+            )
+        } else {
+            // 이미 권한이 있는 경우 갤러리 열기
+            openGallery()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 권한 허용됨
+                openGallery()
+            } else {
+                // 권한 거부됨
+                Toast.makeText(this, "권한이 거부되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
     fun showEditQuizDialog(quiz: Quiz){
@@ -178,6 +253,29 @@ class QuizActivity: AppCompatActivity() {
             // 이미지 삭제 버튼이 클릭 되면 값을 1로 변경
             DELETE_IMAGE_CHECK = 1
         }
+
+        dialogBinding.qtextCountTV.text="(${dialogBinding.quizEditText.text.length}자/100자)"
+        dialogBinding.quizEditText.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 변경 중
+                dialogBinding.qtextCountTV.text="(${s?.length}자/100자)"
+            }
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+        dialogBinding.atextCountTV.text="(${dialogBinding.quizAnswerEditText.text.length}자/100자)"
+        dialogBinding.quizAnswerEditText.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 변경 중
+                dialogBinding.atextCountTV.text="(${s?.length}자/100자)"
+            }
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
 
         // 다이얼로그 내 버튼 클릭 이벤트 처리
         dialogBinding.cancelBtn.setOnClickListener {

@@ -18,4 +18,8 @@
     <string name="save_text">저장</string>
     <string name="dialog_create_instruction">문제집 이름을 입력하세요.</string>
     <string name="dialog_create_edit_text">문제집 이름 (최대 15자)</string>
+    <string name="dialog_create_text_count">(0자/100자)</string>
+    <string name="devil_dialog">맞춰봐!</string>
+    <string name="play_quiz_card_question">Q. 문제입니다. 정답이 무엇일까요?</string>
+    <string name="check_answer_tv">(정답확인)</string>
 </resources>

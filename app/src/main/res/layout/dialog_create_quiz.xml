@@ -44,7 +44,6 @@
         android:layout_height="wrap_content"
         android:padding="6dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:background="@drawable/view_round_white"
         android:fontFamily="@font/nexon_cart_gothic_medium"
         android:gravity="center"
@@ -53,8 +52,19 @@
         android:layout_marginRight="15dp"
         android:inputType="text"
         android:textSize="23sp"
-        android:maxLines="4"
-        android:maxLength="60" />
+        android:maxLines="6"
+        android:maxLength="100" />
+
+    <TextView
+        android:id="@+id/qtextCountTV"
+        android:textAlignment="textEnd"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nexon_cart_gothic_medium"
+        android:text="@string/dialog_create_text_count" />
 
     <EditText
         android:id="@+id/quizAnswerEditText"
@@ -62,7 +72,6 @@
         android:layout_height="wrap_content"
         android:padding="6dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:background="@drawable/view_round_white"
         android:fontFamily="@font/nexon_cart_gothic_medium"
         android:gravity="center"
@@ -71,8 +80,20 @@
         android:layout_marginRight="15dp"
         android:inputType="text"
         android:textSize="23sp"
-        android:maxLines="4"
-        android:maxLength="60" />
+        android:maxLines="6"
+        android:maxLength="100" />
+
+    <TextView
+        android:id="@+id/atextCountTV"
+        android:textAlignment="textEnd"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nexon_cart_gothic_medium"
+        android:text="@string/dialog_create_text_count" />
 
     <LinearLayout
         android:layout_width="match_parent"
