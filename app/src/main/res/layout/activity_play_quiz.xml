@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/dark_night">
 
-
     <ImageView
         android:id="@+id/play_quiz_bottom"
         android:layout_width="426dp"

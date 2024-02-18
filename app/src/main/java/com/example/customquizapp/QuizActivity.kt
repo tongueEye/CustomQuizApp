@@ -114,31 +114,24 @@ class QuizActivity: AppCompatActivity() {
         dialogBinding.quizEditText.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 변경 중
                 dialogBinding.qtextCountTV.text="(${s?.length}자/100자)"
             }
-
             override fun afterTextChanged(s: Editable?) {
             }
 
         })
-
         dialogBinding.quizAnswerEditText.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // 변경 중
                 dialogBinding.atextCountTV.text="(${s?.length}자/100자)"
             }
-
             override fun afterTextChanged(s: Editable?) {
             }
-
         })
-
 
 
         // 다이얼로그 내 버튼 클릭 이벤트 처리
