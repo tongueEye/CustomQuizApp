@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import androidx.room.Dao
 import androidx.room.Delete

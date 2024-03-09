@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import android.content.Context
 import androidx.room.Database
@@ -11,7 +11,7 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun quizDao(): QuizDao
 
     companion object{
-        private var INSTANCE: AppDatabase ?= null
+        private var INSTANCE: AppDatabase?= null
 
         fun getDatabase(context: Context): AppDatabase?{
             if (INSTANCE == null){

@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import android.content.Context
 import android.content.Intent
@@ -11,9 +11,10 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.example.customquizapp.databinding.DialogConfirmBinding
-import com.example.customquizapp.databinding.DialogCreateFolderBinding
-import com.example.customquizapp.databinding.ItemFolderBinding
+import com.tongueeye.memorization.hell.R
+import com.tongueeye.memorization.hell.databinding.DialogConfirmBinding
+import com.tongueeye.memorization.hell.databinding.DialogCreateFolderBinding
+import com.tongueeye.memorization.hell.databinding.ItemFolderBinding
 
 class FolderAdapter(private val folderDao: FolderDao): RecyclerView.Adapter<FolderAdapter.Holder>() {
     private var folderList: MutableList<Folder> = mutableListOf()

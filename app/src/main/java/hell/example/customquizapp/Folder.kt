@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import android.content.Context
 import android.graphics.Color
@@ -12,9 +12,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.customquizapp.databinding.DialogConfirm2Binding
-import com.example.customquizapp.databinding.DialogDetailQuizBinding
-import com.example.customquizapp.databinding.ItemQuizBinding
+import com.tongueeye.memorization.hell.R
+import com.tongueeye.memorization.hell.databinding.DialogConfirm2Binding
+import com.tongueeye.memorization.hell.databinding.DialogDetailQuizBinding
+import com.tongueeye.memorization.hell.databinding.ItemQuizBinding
 
 
 class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizActivity) : RecyclerView.Adapter<QuizAdapter.QuizViewHolder>() {

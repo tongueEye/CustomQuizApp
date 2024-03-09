@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
-import com.example.customquizapp.databinding.ActivityPlayQuizBinding
-import com.example.customquizapp.databinding.DialogConfirm2Binding
-import com.example.customquizapp.databinding.DialogConfirmBinding
+import com.tongueeye.memorization.hell.R
+import com.tongueeye.memorization.hell.databinding.ActivityPlayQuizBinding
+import com.tongueeye.memorization.hell.databinding.DialogConfirm2Binding
+import com.tongueeye.memorization.hell.databinding.DialogConfirmBinding
 
 class PlayQuizActivity:AppCompatActivity() {
     private lateinit var binding: ActivityPlayQuizBinding

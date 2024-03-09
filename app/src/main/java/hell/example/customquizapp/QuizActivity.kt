@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -20,10 +19,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.customquizapp.databinding.ActivityQuizBinding
-import com.example.customquizapp.databinding.DialogConfirm2Binding
-import com.example.customquizapp.databinding.DialogConfirm3Binding
-import com.example.customquizapp.databinding.DialogCreateQuizBinding
+import com.tongueeye.memorization.hell.R
+import com.tongueeye.memorization.hell.databinding.ActivityQuizBinding
+import com.tongueeye.memorization.hell.databinding.DialogConfirm2Binding
+import com.tongueeye.memorization.hell.databinding.DialogConfirm3Binding
+import com.tongueeye.memorization.hell.databinding.DialogCreateQuizBinding
 
 
 class QuizActivity: AppCompatActivity() {

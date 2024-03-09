@@ -1,4 +1,4 @@
-package com.example.customquizapp
+package hell.example.customquizapp
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.customquizapp.databinding.ActivityGateBinding
-import com.example.customquizapp.databinding.DialogCreateFolderBinding
+import com.tongueeye.memorization.hell.databinding.ActivityGateBinding
+import com.tongueeye.memorization.hell.databinding.DialogCreateFolderBinding
 
 
 class GateActivity: AppCompatActivity() {
