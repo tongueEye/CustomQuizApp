@@ -88,6 +88,7 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
         val dialogBinding = DialogDetailQuizBinding.inflate(LayoutInflater.from(quizActivity))
         val dialogBuilder = AlertDialog.Builder(quizActivity)
         val alertDialog = dialogBuilder.create()
+        var isImageZoomed = false // 이미지 확대 여부를 저장하기 위한 변수
 
         // Set values
         dialogBinding.questionTV.text = "Q. "+quiz.question
@@ -100,6 +101,18 @@ class QuizAdapter(private val quizDao: QuizDao, private val quizActivity: QuizAc
             Glide.with(quizActivity)
                 .load(quiz.imageUri!!.toUri())
                 .into(dialogBinding.addPhotoIV)
+            dialogBinding.addPhotoIV.setOnClickListener {
+                if (isImageZoomed) {
+                    // 이미지가 확대된 상태이면 원래 크기로 돌아감
+                    dialogBinding.addPhotoIV.scaleX = 1.0f
+                    dialogBinding.addPhotoIV.scaleY = 1.0f
+                } else {
+                    // 이미지가 원래 크기인 상태이면 확대
+                    dialogBinding.addPhotoIV.scaleX = 2.0f
+                    dialogBinding.addPhotoIV.scaleY = 2.0f
+                }
+                isImageZoomed = !isImageZoomed // 이미지의 확대/축소 상태를 토글
+            }
         }
 
         alertDialog.setView(dialogBinding.root)
