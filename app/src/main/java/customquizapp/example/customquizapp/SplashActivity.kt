@@ -1,11 +1,11 @@
-package hell.example.customquizapp
+package customquizapp.example.customquizapp
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.tongueeye.memorization.hell.databinding.ActivitySplashBinding
+import com.example.customquizapp.databinding.ActivitySplashBinding
 
 class SplashActivity: AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding

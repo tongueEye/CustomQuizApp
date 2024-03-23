@@ -1,4 +1,4 @@
-package hell.example.customquizapp
+package customquizapp.example.customquizapp
 
 import android.content.Context
 import androidx.room.Database

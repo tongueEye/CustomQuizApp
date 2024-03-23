@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.tongueeye.memorization.hell"
+    namespace = "com.example.customquizapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.tongueeye.memorization.hell"
+        applicationId = "com.example.customquizapp"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

@@ -1,4 +1,4 @@
-package hell.example.customquizapp
+package customquizapp.example.customquizapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

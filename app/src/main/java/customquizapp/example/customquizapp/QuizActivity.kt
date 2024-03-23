@@ -1,4 +1,4 @@
-package hell.example.customquizapp
+package customquizapp.example.customquizapp
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,11 +19,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.tongueeye.memorization.hell.R
-import com.tongueeye.memorization.hell.databinding.ActivityQuizBinding
-import com.tongueeye.memorization.hell.databinding.DialogConfirm2Binding
-import com.tongueeye.memorization.hell.databinding.DialogConfirm3Binding
-import com.tongueeye.memorization.hell.databinding.DialogCreateQuizBinding
+import com.example.customquizapp.R
+import com.example.customquizapp.databinding.ActivityQuizBinding
+import com.example.customquizapp.databinding.DialogConfirm2Binding
+import com.example.customquizapp.databinding.DialogConfirm3Binding
+import com.example.customquizapp.databinding.DialogCreateQuizBinding
 
 
 class QuizActivity: AppCompatActivity() {

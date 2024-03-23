@@ -1,4 +1,4 @@
-package hell.example.customquizapp
+package customquizapp.example.customquizapp
 
 import android.content.Intent
 import android.graphics.Color
@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import com.tongueeye.memorization.hell.databinding.ActivityMainBinding
-import com.tongueeye.memorization.hell.databinding.DialogConfirmBinding
+import com.example.customquizapp.databinding.ActivityMainBinding
+import com.example.customquizapp.databinding.DialogConfirmBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
