@@ -1,10 +1,10 @@
-# 😈 암기지옥 : 외울 때 까지 계속 반복하는 암기
+# 😈 암기지옥 : 외울 때 까지 계속 반복하는 암기앱
 
 * 개인 프로젝트
-* 프로젝트 기간:'24.01.16~'24.03.10
-* 프로젝트 목표:
+* 프로젝트 기간: '24.01.16~'24.03.10
+* 프로젝트 목표: 사용자들이 자기주도 학습을 재미있게 할 수 있는 애플리케이션 개발
 * 저작물의 형식:모바일 어플리케이션
-* 주요 타겟: 
+* 주요 타겟: 암기를 재미있게 하고 싶은 개인, 시간 또는 공간에 제약받지 않고 어디에서나 복습하고 싶은 개인
 
 
 ### 기획의도
@@ -16,7 +16,6 @@
 
 ### 기술스택
   ![Kotlin](https://img.shields.io/badge/Kotlin-007396?style=for-the-badge&logo=kotlin&logoColor=white)
-  ![Room DB](https://img.shields.io/badge/Room-DB-orange)(https://developer.android.com/training/data-storage/room)
   ![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white)
   ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
